@@ -56,6 +56,16 @@ def button_exit_clicked():
         return
 
     root.destroy()
+
+def button_delete_contact_clicked():
+    selected_contact_index = listbox_contacts.curselection()
+    if not selected_contact_index:
+        messagebox.showerror("Error", "Please select a contact to delete")
+        return
+    index = selected_contact_index[0]
+    del book.contacts[index]
+    refresh_contacts_list()
+    messagebox.showinfo("Success", "Contact deleted successfully.") 
     
     
 root = tk.Tk()
@@ -86,11 +96,13 @@ tk.Button(buttons_frame, text="Search Contact", command=button_search_contact_cl
 tk.Button(buttons_frame, text="Add Contact", command=button_add_contact_clicked).pack(side=tk.LEFT, padx=5)
 tk.Button(buttons_frame, text="Save Contacts", command=button_save_contacts_clicked).pack(side=tk.LEFT, padx=5)
 tk.Button(buttons_frame, text="Load Contacts", command=button_load_contacts_clicked).pack(side=tk.LEFT, padx=5)
-tk.Button(buttons_frame, text="Exit", command=button_exit_clicked).pack(side=tk.LEFT, padx=5)
+
+tk.Button(root, text="Delete Selected Contact", command=button_delete_contact_clicked).pack(pady=5)
+
 
 tk.Label(root, text="Contacts List: ").pack(pady=(20, 0))
 listbox_contacts = tk.Listbox(root, width=50, height=10)
 listbox_contacts.pack(pady=5)
 tk.Label(root, text="when loading, duplicated contacts are skipped").pack(pady=(20, 0))
-
+tk.Button(root, text="Exit", command=button_exit_clicked).pack(pady=5)
 root.mainloop()
